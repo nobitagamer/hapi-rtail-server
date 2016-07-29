@@ -63,7 +63,7 @@ exports.register = (server, options, next) => {
   })
 
   udpSocket.bind(udpPort, udpHost)
-  debug('UDP  server listening: %s:%s', udpHost, udpPort)
+  debug('UDP server listening: %s:%s', udpHost, udpPort)
 
   /*
       serve our static files
@@ -78,7 +78,7 @@ exports.register = (server, options, next) => {
       method: 'GET',
       handler: {
         directory: {
-          path: 'dist',
+          path: require('path').join(__dirname, 'dist'),
           listing: true
         }
       }
