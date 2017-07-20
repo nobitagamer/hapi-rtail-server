@@ -8,7 +8,7 @@ require('debug').enable('socket.io:*')
 const SocketIO = require('socket.io')
 
 exports.register = (server, options, next) => {
-  const io = SocketIO(server.listener, { path: server.realm.modifiers.route.prefix + '/socket.io' })
+  const io = SocketIO(server.listener, { path: (server.realm.modifiers.route.prefix || '/rtail') + '/socket.io' })
   io.set('transports', ['websocket']) // forces client to connect as websockets. If client tries xhr polling, it won't connect.
 
   /*!
@@ -53,6 +53,7 @@ exports.register = (server, options, next) => {
       handle socket.io connections
   */
   io.on('connection', socket => {
+    console.log('New connection!')
     socket.emit('streams', Object.keys(streams))
     socket.on('select stream', stream => {
       socket.leave(socket.rooms[0])
